@@ -1,0 +1,21 @@
+server:
+  port: 9000
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: ssafyssafy
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+  ai:
+    azure:
+      openai:
+        api-key: 8eda70cfaa954268a94164ac8c015dde
+        chat:
+          options:
+            deployment-name: gpt4-metlife-team04
+        endpoint: https://oai-metlife-team004.openai.azure.com/

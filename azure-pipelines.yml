@@ -1,0 +1,30 @@
+# Gradle
+# Build your Java project and run tests with Gradle using a Gradle wrapper script.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Gradle@3
+  inputs:
+    workingDirectory: '$(Build.SourcesDirectory)/hackathon'
+    gradleWrapperFile: '$(Build.SourcesDirectory)/hackathon/gradlew'
+    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.17'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'build'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'metlife-it-hackathon(c78a7e0d-77b8-4816-b9f7-ac6d97d997be)'
+    appType: 'webAppLinux'
+    WebAppName: 'app-metlife-team04'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/hackathon-0.0.1-SNAPSHOT.jar'
+    RuntimeStack: 'JAVA|17-java17'
